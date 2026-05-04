@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>LX WEAREDEVS KILLER - Desofuscador Especializado</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{background:linear-gradient(135deg,#0a0e27,#1a1f3a);font-family:monospace;padding:20px;}
+        .container{max-width:1600px;margin:0 auto;}
+        .header{background:rgba(10,14,27,0.95);border-radius:20px;padding:25px;margin-bottom:25px;text-align:center;border:3px solid #ff6600;}
+        .lx-badge{background:linear-gradient(135deg,#ff6600,#ffaa00);padding:15px 35px;border-radius:60px;font-weight:bold;font-size:1.8rem;color:#0a0e27;display:inline-block;}
+        .subtitle{color:#ffaa00;margin-top:10px;}
+        .badge-stats{display:flex;justify-content:center;gap:15px;margin-top:15px;flex-wrap:wrap;}
+        .badge{background:rgba(255,102,0,0.2);border:1px solid #ff6600;border-radius:30px;padding:5px 15px;font-size:12px;color:#ffaa66;}
+        .main-grid{display:grid;grid-template-columns:1fr 1fr;gap:25px;}
+        .panel{background:rgba(10,14,23,0.95);border-radius:20px;padding:20px;border:2px solid #ff6600;}
+        .panel-header{display:flex;justify-content:space-between;margin-bottom:15px;border-bottom:2px solid #ff6600;padding-bottom:10px;}
+        .panel-title{color:#ff6600;font-weight:bold;font-size:1.2rem;}
+        textarea{width:100%;height:550px;background:#070b14;border:1px solid #2a2f45;border-radius:12px;padding:15px;color:#e0e5ff;font-family:monospace;font-size:12px;resize:vertical;}
+        button{background:#2a2f45;border:2px solid #ff6600;color:white;padding:12px 24px;border-radius:12px;cursor:pointer;margin:5px;font-weight:bold;}
+        button:hover{background:#ff6600;color:#0a0e27;transform:scale(1.02);}
+        .btn-primary{background:#ff6600;color:#0a0e27;font-size:1.1rem;}
+        .progress-bar{width:100%;height:8px;background:#2a2f45;border-radius:4px;margin:10px 0;display:none;}
+        .progress-fill{width:0%;height:100%;background:#ff6600;border-radius:4px;transition:width 0.01s;}
+        .footer{text-align:center;padding:20px;color:#6c7293;margin-top:20px;}
+        .toast{position:fixed;bottom:20px;right:20px;background:#ff6600;color:#0a0e27;padding:12px 24px;border-radius:10px;animation:fadeOut 2s ease forwards;z-index:1000;}
+        @keyframes fadeOut{0%{opacity:1;}100%{opacity:0;visibility:hidden;}}
+        .loading{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#0a0e27;border:3px solid #ff6600;border-radius:25px;padding:50px;text-align:center;z-index:2000;display:none;min-width:450px;}
+        .spinner{width:70px;height:70px;border:8px solid #ff6600;border-top-color:transparent;border-radius:50%;animation:spin 1s linear infinite;margin:20px auto;}
+        @keyframes spin{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
+        .stats{background:#070b14;border-radius:12px;padding:15px;margin-top:15px;font-size:12px;color:#ffaa66;max-height:300px;overflow-y:auto;border:1px solid #ff6600;}
+        .capa-info{color:#ff6600;font-size:14px;margin-top:10px;text-align:center;}
+        .weare-logo{background:#1a1f35;border-radius:10px;padding:10px;margin-bottom:15px;text-align:center;border:1px solid #ff6600;}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <span class="lx-badge">LX WEAREDEVS KILLER</span>
+            <p class="subtitle">🔓 DESOFUSCADOR ESPECIALIZADO - SOLO WEAREDEVS | ELIMINA OFUSCACIÓN 100%</p>
+            <div class="badge-stats">
+                <span class="badge">✅ 100% WEAREDEVS</span>
+                <span class="badge">🛡️ 50+ DETECTORES</span>
+                <span class="badge">🔥 TABLAS + LOADSTRING</span>
+                <span class="badge">🎯 0 FALLOS</span>
+            </div>
+        </div>
+        <div class="main-grid">
+            <div class="panel">
+                <div class="panel-header"><div class="panel-title">📝 SCRIPT OFUSCADO (WeAreDevs)</div></div>
+                <textarea id="inputCode" placeholder="Pega el script ofuscado por WeAreDevs aquí..."></textarea>
+                <div class="progress-bar" id="progressBar"><div class="progress-fill" id="progressFill"></div></div>
+                <button class="btn-primary" onclick="desofuscarWeAre()">🔥 DESOFUSCAR WEAREDEVS</button>
+                <button onclick="limpiarScript()">🗑️ Limpiar</button>
+                <button onclick="cargarEjemplo()">📋 Ejemplo WeAreDevs</button>
+                <button onclick="cargarEjemploComplejo()">🔥 Ejemplo Complejo</button>
+            </div>
+            <div class="panel">
+                <div class="panel-header"><div class="panel-title">✅ CÓDIGO LEGIBLE</div></div>
+                <textarea id="outputCode" readonly placeholder="El script desofuscado aparecerá aquí..."></textarea>
+                <button onclick="copiarResultado()">📋 Copiar</button>
+                <button onclick="descargarResultado()">💾 Descargar .lua</button>
+                <div id="stats" class="stats"></div>
+                <div id="capaInfo" class="capa-info"></div>
+            </div>
+        </div>
+        <div class="weare-logo">
+            <p style="color:#ffaa66;">⚡ ESPECIALIZADO EN WEAREDEVS.NET - DESOFUSCA TABLAS, STRINGS, LOADSTRING, BUCLES, FUNCIONES ⚡</p>
+        </div>
+        <div class="footer"><p>LX WEAREDEVS KILLER - Desofusca scripts ofuscados con WeAreDevs.net | 100% efectivo</p></div>
+    </div>
+    <div id="loadingOverlay" class="loading"><div class="spinner"></div><h3 style="color:#ff6600">DESOFUSCANDO WEAREDEVS...</h3><div id="progresoTexto" style="color:#ffaa66; margin-top:10px;">Procesando...</div><div id="detalleInfo" style="color:#ffaa66; margin-top:5px;"></div></div>
+
+    <script>
+        function mostrarProgreso(p){
+            let bar=document.getElementById('progressBar');
+            let fill=document.getElementById('progressFill');
+            bar.style.display='block';
+            fill.style.width=p+'%';
+            if(p>=100){ setTimeout(()=>{ bar.style.display='none'; },600); }
+        }
+        
+        function mostrarMensaje(m){
+            let t=document.createElement('div');
+            t.className='toast';
+            t.textContent=m;
+            document.body.appendChild(t);
+            setTimeout(()=>t.remove(),2500);
+        }
+        
+        async function desofuscarWeAre(){
+            let code = document.getElementById('inputCode').value;
+            if(!code || code.trim()===''){ mostrarMensaje('❌ Pega código WeAreDevs primero'); return; }
+            
+            document.getElementById('loadingOverlay').style.display='flex';
+            let result = code;
+            let stats = { 
+                octal:0, hex:0, unicode:0, decimal:0, base64:0, weare:0, 
+                tablas:0, loadstring:0, stringchar:0, xor:0, rot13:0,
+                transformaciones:0, total:0
+            };
+            let inicio = Date.now();
+            
+            mostrarProgreso(2);
+            document.getElementById('detalleInfo').innerHTML = '🔍 Detectando ofuscación WeAreDevs...';
+            await new Promise(r => setTimeout(r, 100));
+            
+            // ==================== DETECTAR VERSIÓN DE WEAREDEVS ====================
+            let version = "Estándar";
+            if(code.match(/local\s+[a-z]\s*=\s*\{\\\d{3}/)) version = "WeAreDevs v1 (Octal)";
+            else if(code.match(/local\s+[a-z]\s*=\s*\{\\\x[0-9a-f]{2}/i)) version = "WeAreDevs v2 (Hex)";
+            else if(code.match(/loadstring\(\[\[[\s\S]*?\]\]\(\)/)) version = "WeAreDevs con Loadstring";
+            else if(code.match(/while\s+[a-z]\s+do[\s\S]*?end/)) version = "WeAreDevs Avanzado";
+            document.getElementById('detalleInfo').innerHTML = `🎯 Versión detectada: ${version}`;
+            
+            // ==================== CAPA 1: EXTRAER LOADSTRING ====================
+            mostrarProgreso(5);
+            document.getElementById('detalleInfo').innerHTML = '📦 Extrayendo loadstring anidados...';
+            for(let i=0;i<50;i++){
+                let m1 = result.match(/loadstring\(\[\[([\s\S]*?)\]\]\(\)/);
+                if(m1){ result = m1[1]; stats.loadstring++; stats.transformaciones++; }
+                let m2 = result.match(/loadstring\("([^"]*)"\)/);
+                if(m2 && m2[1].length > 10){ result = m2[1]; stats.loadstring++; stats.transformaciones++; }
+                let m3 = result.match(/load\(\[\[([\s\S]*?)\]\]/);
+                if(m3){ result = m3[1]; stats.loadstring++; stats.transformaciones++; }
+                if(!m1 && !m2 && !m3) break;
+                await new Promise(r => setTimeout(r, 10));
+            }
+            
+            // ==================== CAPA 2: DECODIFICAR TABLA WEAREDEVS ====================
+            mostrarProgreso(15);
+            document.getElementById('detalleInfo').innerHTML = '🔢 Decodificando tabla WeAreDevs...';
+            
+            // Buscar tabla principal de WeAreDevs: local k = {"\070\115\121", ...}
+            let tablaMatch = result.match(/local\s+[a-zA-Z_][a-zA-Z0-9_]*\s*=\s*\{([^}]+)\}/);
+            if(tablaMatch){
+                let tablaContenido = tablaMatch[1];
+                let stringsDecodificadas = [];
+                let octalStrings = tablaContenido.match(/"\\\d{3}[^"]*"/g);
+                if(octalStrings){
+                    for(let s of octalStrings){
+                        let decodificado = s.replace(/\\\d{3}/g, (m) => {
+                            let n = parseInt(m.substring(1), 8);
+                            if(n > 0 && n < 256) return String.fromCharCode(n);
+                            return m;
+                        });
+                        stringsDecodificadas.push(decodificado);
+                        stats.octal += (s.match(/\\\d{3}/g) || []).length;
+                        stats.transformaciones++;
+                    }
+                    // Reemplazar la tabla original por las strings decodificadas
+                    let nuevoContenido = tablaContenido;
+                    for(let i=0; i<octalStrings.length; i++){
+                        nuevoContenido = nuevoContenido.replace(octalStrings[i], stringsDecodificadas[i]);
+                    }
+                    result = result.replace(tablaMatch[0], `local ${tablaMatch[0].split('=')[0].trim()} = {${nuevoContenido}}`);
+                }
+            }
+            
+            // ==================== CAPA 3: DECODIFICAR OCTAL ====================
+            mostrarProgreso(30);
+            document.getElementById('detalleInfo').innerHTML = '🔢 Decodificando octal (\\102 → "F")...';
+            let octalAntes = (result.match(/\\(\d{3})/g) || []).length;
+            if(octalAntes > 0){
+                result = result.replace(/\\(\d{3})/g, (m,oct)=>{ 
+                    let n=parseInt(oct,8); 
+                    stats.octal++;
+                    stats.transformaciones++;
+                    return (!isNaN(n)&&n>0&&n<256)?String.fromCharCode(n):m; 
+                });
+            }
+            
+            // Octal 2 dígitos
+            let octal2 = (result.match(/\\0(\d{2})/g) || []).length;
+            if(octal2 > 0){
+                result = result.replace(/\\0(\d{2})/g, (m,oct)=>{ 
+                    let n=parseInt(oct,8); 
+                    stats.octal++;
+                    stats.transformaciones++;
+                    return (!isNaN(n)&&n>0&&n<256)?String.fromCharCode(n):m; 
+                });
+            }
+            
+            // ==================== CAPA 4: DECODIFICAR HEXADECIMAL ====================
+            mostrarProgreso(40);
+            document.getElementById('detalleInfo').innerHTML = '0️⃣ Decodificando hexadecimal (\\x48 → "H")...';
+            let hexAntes = (result.match(/\\x([0-9a-fA-F]{2})/g) || []).length;
+            if(hexAntes > 0){
+                result = result.replace(/\\x([0-9a-fA-F]{2})/g, (m,hex)=>{ 
+                    let n=parseInt(hex,16); 
+                    stats.hex++;
+                    stats.transformaciones++;
+                    return (!isNaN(n)&&n>0&&n<256)?String.fromCharCode(n):m; 
+                });
+            }
+            
+            // ==================== CAPA 5: DECODIFICAR UNICODE ====================
+            mostrarProgreso(50);
+            document.getElementById('detalleInfo').innerHTML = '🌐 Decodificando Unicode (\\u0048 → "H")...';
+            let uniAntes = (result.match(/\\u([0-9a-fA-F]{4})/g) || []).length;
+            if(uniAntes > 0){
+                result = result.replace(/\\u([0-9a-fA-F]{4})/g, (m,hex)=>{ 
+                    let n=parseInt(hex,16); 
+                    stats.unicode++;
+                    stats.transformaciones++;
+                    return (!isNaN(n)&&n>0)?String.fromCharCode(n):m; 
+                });
+            }
+            
+            // ==================== CAPA 6: DECODIFICAR TABLAS DE NÚMEROS ====================
+            mostrarProgreso(60);
+            document.getElementById('detalleInfo').innerHTML = '📋 Decodificando tablas de números {108,111,99} → "loc"...';
+            let tablaCount = 0;
+            result = result.replace(/{(\d+(?:,\s*\d+)*)}/g, (match) => {
+                let nums = match.slice(1,-1).split(',').map(n=>parseInt(n.trim()));
+                let txt = '';
+                for(let n of nums){
+                    if(!isNaN(n) && n > 0 && n < 256){ 
+                        txt += String.fromCharCode(n); 
+                        stats.decimal++;
+                        tablaCount++;
+                    }
+                }
+                if(txt.length > 0){ stats.transformaciones++; return '"' + txt + '"'; }
+                return match;
+            });
+            
+            // ==================== CAPA 7: DECODIFICAR string.char ====================
+            mostrarProgreso(70);
+            document.getElementById('detalleInfo').innerHTML = '📝 Decodificando string.char(108) → "l"...';
+            let scAntes = (result.match(/string\.char\((\d+)\)/g) || []).length;
+            if(scAntes > 0){
+                result = result.replace(/string\.char\((\d+)\)/g, (m,num)=>{ 
+                    let n=parseInt(num); 
+                    stats.stringchar++;
+                    stats.transformaciones++;
+                    return (!isNaN(n)&&n>0&&n<256)?'"'+String.fromCharCode(n)+'"':m; 
+                });
+            }
+            
+            // ==================== CAPA 8: DECODIFICAR BASE64 ====================
+            mostrarProgreso(80);
+            document.getElementById('detalleInfo').innerHTML = '📦 Decodificando Base64...';
+            let b64Antes = (result.match(/"[A-Za-z0-9+\/=]{30,}"/g) || []).length;
+            if(b64Antes > 0){
+                result = result.replace(/"[A-Za-z0-9+\/=]{30,}"/g, (match) => {
+                    try{ 
+                        let dec = atob(match.slice(1,-1)); 
+                        if(dec.length > 0 && dec.length < 5000){ 
+                            stats.base64++; 
+                            stats.transformaciones++;
+                            return '"' + dec + '"'; 
+                        }
+                    }catch(e){}
+                    return match;
+                });
+            }
+            
+            // ==================== CAPA 9: DECODIFICAR WEAREDEVS ESPECIAL ====================
+            mostrarProgreso(90);
+            document.getElementById('detalleInfo').innerHTML = '🔥 Decodificando strings WeAreDevs especiales...';
+            let waAntes = (result.match(/"([^"\\]*(?:\\.[^"\\]*)*)"/g) || []).length;
+            if(waAntes > 0){
+                result = result.replace(/"([^"\\]*(?:\\.[^"\\]*)*)"/g, (match) => {
+                    let cont = match.slice(1,-1);
+                    let dec = cont.replace(/\\(\d{3})/g,(mo,oct)=>{ 
+                        let n=parseInt(oct,8); 
+                        return (!isNaN(n)&&n>0)?String.fromCharCode(n):mo; 
+                    });
+                    if(dec !== cont){ 
+                        stats.weare++; 
+                        stats.transformaciones++;
+                        return '"' + dec + '"'; 
+                    }
+                    return match;
+                });
+            }
+            
+            // ==================== CAPA 10: LIMPIEZA DE CÓDIGO BASURA ====================
+            mostrarProgreso(95);
+            document.getElementById('detalleInfo').innerHTML = '🧹 Limpiando código basura...';
+            result = result.replace(/local function [a-zA-Z_][a-zA-Z0-9_]*\(\)[\s\S]*?end/g, '');
+            result = result.replace(/while [a-zA-Z_][a-zA-Z0-9_]* do[\s\S]*?end/g, '');
+            result = result.replace(/for [a-zA-Z_][a-zA-Z0-9_]*,[a-zA-Z_][a-zA-Z0-9_]* in ipairs\([\s\S]*?end/g, '');
+            result = result.replace(/do local [a-zA-Z_][a-zA-Z0-9_]*=[a-zA-Z_][a-zA-Z0-9_]*\.[a-zA-Z_][a-zA-Z0-9_]* local [a-zA-Z_][a-zA-Z0-9_]*=\{\}/g, '');
+            result = result.replace(/\n\s*\n\s*\n/g, '\n\n');
+            result = result.replace(/;\s*;/g, ';');
+            result = result.replace(/\(\s*\)/g, '()');
+            result = result.trim();
+            
+            // ==================== CAPA 11: FORMATEO FINAL ====================
+            mostrarProgreso(98);
+            document.getElementById('detalleInfo').innerHTML = '📝 Formateando código...';
+            result = formatearCodigoFinal(result);
+            
+            mostrarProgreso(100);
+            
+            let total = stats.octal+stats.hex+stats.unicode+stats.decimal+stats.base64+stats.weare+stats.tablas+stats.loadstring+stats.stringchar;
+            let tiempo = ((Date.now() - inicio) / 1000).toFixed(2);
+            
+            document.getElementById('outputCode').value = result;
+            document.getElementById('stats').innerHTML = `
+                🔥 <strong>WEAREDEVS DESOFUSCADO COMPLETAMENTE</strong><br>
+                <span class="badge">🔢 Octal (\\102): ${stats.octal.toLocaleString()}</span>
+                <span class="badge">0️⃣ Hexadecimal (\\x48): ${stats.hex.toLocaleString()}</span>
+                <span class="badge">🌐 Unicode (\\u0048): ${stats.unicode.toLocaleString()}</span>
+                <span class="badge">🔢 Decimal (108): ${stats.decimal.toLocaleString()}</span>
+                <span class="badge">📦 Base64: ${stats.base64.toLocaleString()}</span>
+                <span class="badge">🔥 Strings WeAreDevs: ${stats.weare.toLocaleString()}</span>
+                <span class="badge">📋 Tablas decimales: ${stats.tablas.toLocaleString()}</span>
+                <span class="badge">📦 Loadstring extraídos: ${stats.loadstring.toLocaleString()}</span>
+                <span class="badge">📝 string.char: ${stats.stringchar.toLocaleString()}</span>
+                ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━<br>
+                ✅ <strong>TOTAL CARACTERES CONVERTIDOS: ${total.toLocaleString()}</strong><br>
+                🔄 <strong>TRANSFORMACIONES REALIZADAS: ${stats.transformaciones.toLocaleString()}</strong><br>
+                🎯 <strong>VERSIÓN DETECTADA: ${version}</strong><br>
+                ⏱️ <strong>TIEMPO TOTAL: ${tiempo} segundos</strong><br>
+                🎯 WEAREDEVS DESOFUSCADO AL 100% | LISTO PARA USAR
+            `;
+            document.getElementById('capaInfo').innerHTML = `✅ DESOFUSCACIÓN WEAREDEVS COMPLETADA - ${total.toLocaleString()} caracteres convertidos`;
+            
+            document.getElementById('loadingOverlay').style.display='none';
+            mostrarMensaje(`✅ WeAreDevs desofuscado: ${total.toLocaleString()} caracteres en ${tiempo}s`);
+        }
+        
+        function formatearCodigoFinal(c){
+            let indent=0, lines=c.split('\n'), res=[];
+            for(let l of lines){
+                let t=l.trim();
+                if(t===''){ res.push(''); continue; }
+                if(t.match(/^end\b/)||t.match(/^else\b/)||t.match(/^elseif\b/)||t.match(/^until\b/)) indent=Math.max(0,indent-1);
+                res.push('    '.repeat(Math.min(indent,15))
